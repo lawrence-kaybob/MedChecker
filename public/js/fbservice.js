@@ -16,6 +16,7 @@ app.service('$auth', function($route) {
 	// 최소한의 정보만 담을 객체
 	// firebase 객체를 사용하지 않도록 하기 위함임!
 	var currentUser;
+	var pills;
 
 	this.getCurrentUser = function (){
 		return currentUser;
@@ -65,7 +66,11 @@ app.service('$auth', function($route) {
 					displayName : user.displayName,
 					email: user.email,
 					photoURL: user.photoURL,
-					uid : user.uid
+					uid : user.uid,
+					patientsNo : "154021",
+					pillsInfo : "티아졸리디네디온(TZD)",
+					age : 22,
+					birthday : "1994년 8월 26일"
 				};
 
 				$scope.currentUser = currentUser;
@@ -80,7 +85,11 @@ app.service('$auth', function($route) {
 					displayName: null,
 					photoURL: "images/profile_placeholder.png",
 					email: null,
-					uid: null
+					uid: null,
+					patientsNo : null,
+					pillsInfo : null,
+					age : null,
+					birthday : null,
 				}
 				$scope.nextState = "로그인"
 				//$scope.showModal = true;
