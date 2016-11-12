@@ -9,8 +9,9 @@ var app = angular.module("appModule", ['ngRoute']);
 
 app.controller('AppController', function ($scope, $auth) {
 
-	var currentUser;
-
+    var currentYear;
+    var currentMonth;
+    var currentDay;
 	$scope.toggleAuth = function() {
         if (!firebase.auth().currentUser) {
             // Firebase FB Login Provider로 시작
@@ -25,6 +26,21 @@ app.controller('AppController', function ($scope, $auth) {
             firebase.auth().signOut();
         }
 	};
+
+    $scope.databaseCheck = function () {
+    var d = new Date();
+    var n = d.getTime();
+
+        firebase.database().ref(
+/*          'status/' + firebase.auth().currentUser.uid +'/' +  2016+ '/' + 11).set({
+                '13' : n*/
+            'user_info/' + firebase.auth().currentUser.uid + '/').set({
+                patientsNo : "1325704",
+                pillsInfo : $scope.currentUser.pillsInfo,
+                age : $scope.currentUser.age,
+                birthday : $scope.currentUser.birthday
+            });
+    };
 
 	$auth.init();
 	console.log("app.js Loaded");

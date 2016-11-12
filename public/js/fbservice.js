@@ -21,6 +21,7 @@ app.service('$auth', function($route) {
 	this.getCurrentUser = function (){
 		return currentUser;
 	};
+
 	// Initailzation Function
 	// Called in $scope controller
 	this.init = function () {
@@ -32,54 +33,55 @@ app.service('$auth', function($route) {
 			var email = error.email;
 			var credential = error.credential;
 
-			// 비정상적인 접근에 대한 로직을 따로 짤 수 있을 것 같음.
 			alert("비정상적인 접근입니다.\n다시 로그인해주세요.");
 			console.error(error);
 
-/*			// 여기서 서비스하는 errorcode들은
-			// 가능성이 적은 문제들로 보통 비정상적인 접근이
-			// 일어날때만 날 것 같다.
-			if (errorCode === 'auth/account-exists-with-different-credential') {
-				alert('이미 가입하셨어여');
-			}
-			// 그 이외 오류들
-			// 정지먹은 사용자들도 여기서 예외처리 넣어주면 될 것 같음
-			// Update : Firebase Auth는 API적으로 사용정지 설정을 할 수 없어
-			// Firebase DB를 활용하여 사용가능성을 확인해야한다.
-			else {
-
-			}*/
 		});
 	};
 
 	this.setScopeOnAuthStateChange = function ($scope) {
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
-				// currentUser 객체는 global하게 접근 가능!
-				// $('#modal').modal('hide');
-				// 현 사용자 정보가 메인 페이지에
-				// 적용될 수 있게 스크립트만 짜주면 될 듯
-
 				console.log('State Change Checked');
-				currentUser = {
-					greetingMessage: "반갑습니다 " + user.displayName + "님",
-					displayName : user.displayName,
-					email: user.email,
-					photoURL: user.photoURL,
-					uid : user.uid,
-					patientsNo : "154021",
-					pillsInfo : "티아졸리디네디온(TZD)",
-					age : 22,
-					birthday : "1994년 8월 26일"
-				};
 
-				$scope.currentUser = currentUser;
+				currentUser = {
+	  		  		greetingMessage : '반갑습니다 ' + user.displayName + '님',
+	  		  		displayName : user.displayName,
+	  		  		email : user.email,
+	  		  		photoURL : user.photoURL,
+	  		  		patientsNo : "",
+	  		  		pillsInfo : "",
+	  		  		age : "",
+	  		  		birthday : "",
+
+				}
+
+				// Firebase Database is a bit slow
+				// So $route.reload() and angular module allocation is better
+				// to done after fetching from database is complete
+
+		  		firebase.database().ref(
+		       	 'user_info/' + firebase.auth().currentUser.uid + '/').once('value')
+		  		  .then(function(snapshot) {
+			        userInfo = snapshot.val();
+
+			        console.log(currentUser);
+
+	  		  		currentUser.patientsNo = userInfo.patientsNo;
+			  		currentUser.pillsInfo = userInfo.pillsInfo;
+	  		  		currentUser.age = userInfo.age;
+		  		  	currentUser.birthday = userInfo.birthday;
+
+		  		  	$scope.currentUser = currentUser;
+		  		  	$route.reload();
+	  		  	});
+
+	  		  	console.log(currentUser);
 				console.log("currentUser usable");
-				$scope.nextState = "로그아웃"
-				// angular.element('#loader-wrapper').fadeOut(500);
-				// $route.reload();
+				$scope.nextState = "로그아웃";
 			}
 			else {
+				console.log('State Change Checked');
 				$scope.currentUser = {
 					greetingMessage: "로그인 해주세요",
 					displayName: null,
@@ -92,16 +94,11 @@ app.service('$auth', function($route) {
 					birthday : null,
 				}
 				$scope.nextState = "로그인"
-				//$scope.showModal = true;
-				// angular.element('#loader-wrapper').fadeIn(500);
-				// angular.element('#img-wrapper').fadeOut(500, function(){
-				// angular.element('#socialLogin').fadeIn(500);
-				}
 
-				$route.reload();
-				// 로그아웃이 됐을 경우의 로직
-				// index.html(메인페이지 화면)으로 redirect하게
-				// 하면 될 듯
+			}
+
+			$route.reload();
+			// 로그아웃이 됐을 경우의 로직
 			});
 
 	console.log("Firebase Loaded");
