@@ -12,11 +12,21 @@ var app = angular.module("appModule");
 
 // Individual service for firebase authentication
 // Should be included
-app.service('$auth', function($route) {
+app.service('$auth', function($route, $calendar) {
 	// 최소한의 정보만 담을 객체
 	// firebase 객체를 사용하지 않도록 하기 위함임!
-	var currentUser;
-	var pills;
+	var currentUser= {
+		greetingMessage: "로그인 해주세요",
+		displayName: null,
+		photoURL: "images/profile_placeholder.png",
+		email: null,
+		uid: null,
+		patientsNo : null,
+		pillsInfo : null,
+		age : null,
+		birthday : null,
+	};
+	var pillsData;
 
 	this.getCurrentUser = function (){
 		return currentUser;
@@ -49,10 +59,10 @@ app.service('$auth', function($route) {
 	  		  		displayName : user.displayName,
 	  		  		email : user.email,
 	  		  		photoURL : user.photoURL,
-	  		  		patientsNo : "",
-	  		  		pillsInfo : "",
-	  		  		age : "",
-	  		  		birthday : "",
+	  		  		patientsNo : null,
+	  		  		pillsInfo : null,
+	  		  		age : null,
+	  		  		birthday : null,
 
 				}
 
@@ -65,8 +75,6 @@ app.service('$auth', function($route) {
 		  		  .then(function(snapshot) {
 			        userInfo = snapshot.val();
 
-			        console.log(currentUser);
-
 	  		  		currentUser.patientsNo = userInfo.patientsNo;
 			  		currentUser.pillsInfo = userInfo.pillsInfo;
 	  		  		currentUser.age = userInfo.age;
@@ -76,8 +84,7 @@ app.service('$auth', function($route) {
 		  		  	$route.reload();
 	  		  	});
 
-	  		  	console.log(currentUser);
-				console.log("currentUser usable");
+    			$calendar.createCalendar();
 				$scope.nextState = "로그아웃";
 			}
 			else {
@@ -93,13 +100,12 @@ app.service('$auth', function($route) {
 					age : null,
 					birthday : null,
 				}
-				$scope.nextState = "로그인"
+				$scope.nextState = "로그인";
 
+				$route.reload();
 			}
 
-			$route.reload();
-			// 로그아웃이 됐을 경우의 로직
-			});
+		});
 
 	console.log("Firebase Loaded");
 	};

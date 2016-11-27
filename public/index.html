@@ -49,9 +49,19 @@
     <!-- Customized Firebase Logic File Import -->
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src='js/fbservice.js'></script>
+    <script type="text/javascript" src='js/medchecker-cal.js'></script>
+    <script type="text/javascript">
+      function showDetail(time) {
+        alert(time + '에 섭취했습니다!');
+      }
+    </script>
+
 
   </head>
   <body ng-app="appModule" ng-controller='AppController'>
+  <div id='detailModal' visible='showModal'>
+    
+  </div>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
@@ -94,63 +104,36 @@
       <!-- 페이지의 본 컨테이너 -->
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid">
-        <div id = "med-cal" class="mdl-color--white mdl-shadow--2dp">
-        <h2 id="cal-title">{{currentUser.displayName}}님의 현황</h2>
-        <div class="mdl-grid">
-          <span class="mdl-cell mdl-cell--4-col">환자번호 : {{currentUser.patientsNo}}</span>
-          <span class="mdl-cell mdl-cell--4-col">복용중인 약 : {{currentUser.pillsInfo}}</span>
-          <span class="mdl-cell mdl-cell--4-col">생년월일 : {{currentUser.birthday}} (만 {{currentUser.age}}세)</span>
-        </div>
-          <table id="cal-content">
-            <thead>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-                <td>13</td>
-                <td>14</td>
-              </tr>
-              <tr>
-                <td>15</td>
-                <td>16</td>
-                <td>17</td>
-                <td>18</td>
-                <td>19</td>
-                <td>20</td>
-                <td>21</td>
-              </tr>
-              <tr>
-                <td>22</td>
-                <td>23</td>
-                <td>24</td>
-                <td>25</td>
-                <td>26</td>
-                <td>27</td>
-                <td>28</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div id = "med-cal" class="mdl-color--white mdl-shadow--2dp">
+            <h2 id="cal-title">{{currentUser.displayName}}님의 현황</h2>
+            <div class="mdl-grid">
+              <span class="mdl-cell mdl-cell--3-col">환자번호 : {{currentUser.patientsNo}}</span>
+              <span class="mdl-cell mdl-cell--3-col">복용중인 약 : {{currentUser.pillsInfo}}</span>
+              <span class="mdl-cell mdl-cell--3-col">생년월일 : {{currentUser.birthday}} (만 {{currentUser.age}}세)</span>
+              <span id="date-picker" class="mdl-cell mdl-cell--3-col">
+                              <form name="date_holder">
+                <input type="text" id="yearPicker">
+                <select id="monthPicker">
+                  <option value="January">1월</option>
+                  <option value="February">2월</option>
+                  <option value="March">3월</option>
+                  <option value="April">4월</option>
+                  <option value="May">5월</option>
+                  <option value="June">6월</option>
+                  <option value="July">7월</option>
+                  <option value="Auguest">8월</option>
+                  <option value="September">9월</option>
+                  <option value="October">10월</option>
+                  <option value="November">11월</option>
+                  <option value="December">12월</option>
+                </select>
+                <input type="submit" ng-click="reloadCalendar()" value="조회">
+              </form>
+              </span>
+            </div>
+            <div id='calendar-wrapper'>
+            </div>
+          </div>
         </div>
       </main>
     </div>
