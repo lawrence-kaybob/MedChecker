@@ -253,6 +253,11 @@ input, select{
   text-align: center;
 }
 
+#database-inserter {
+  text-align: right;
+  margin : 10px;
+}
+
 table, th, td {
   padding-top: 10px;
   padding-bottom: 10px;

@@ -23,22 +23,17 @@ app.controller('AppController', function ($scope, $auth, $calendar, $route) {
 	};
 
     $scope.databaseCheck = function () {
-    var d = new Date();
-    var n = d.getTime();
+        var d = new Date();
+        var n = d.getTime();
+        var input = {
+                '2' : 1475406000, '3': 1475506800, '7' : 1475856780, '14': 1476467340
+        };
+
+        input['' + d.getDate()] = n;
 
         firebase.database().ref(
-
-/*            'user_info/' + firebase.auth().currentUser.uid + '/').set({
-                patientsNo : "1325704",
-                pillsInfo : $scope.currentUser.pillsInfo,
-                age : $scope.currentUser.age,
-                birthday : $scope.currentUser.birthday*/
-                'status/' + firebase.auth().currentUser.uid +  '/' + 2016 + '/' + 10).set({
-                '2' : 1475406000, '3': 1475506800, '7' : 1475856780, '14': 1476467340
-            });
-
+                'status/' + firebase.auth().currentUser.uid +  '/' + 2016 + '/' + 11).set(input);
         $route.reload();
-
     };
 
     $scope.showDetail = function(year, month, day) {
@@ -48,12 +43,15 @@ app.controller('AppController', function ($scope, $auth, $calendar, $route) {
         console.log($calendar.userPillData);
     };
 
+
+
+    $scope.postInfo = function() {
+        $calendar.postInfo($scope.takenTime);
+    }
+
     $scope.reloadCalendar = $calendar.reloadCalendar;
 
-    /* Query for Setting Database
-
-    'status/' + firebase.auth().currentUser.uid +'/' +  2016+ '/' + 11).set({
-                '13' : n*/
+    $scope.takenTime = new Date();
 
 	$auth.init();
 	console.log("app.js Loaded");
