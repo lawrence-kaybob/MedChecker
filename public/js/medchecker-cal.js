@@ -116,8 +116,11 @@ app.service('$calendar', function($route) {
 		// Return calendar DOM objects
 	};
 
+	this.getUserPillData = function() {
+		return userPillData;
+	}
 
-	this.reloadCalendar = function () {
+	function reloadCalendar(){
 		console.log("Reload Reached");
 		newYear = document.getElementById("yearPicker").value;
 		newMonth = document.getElementById("monthPicker").value;
@@ -126,5 +129,39 @@ app.service('$calendar', function($route) {
 		newDate = newMonth + ' 1, ' + newYear;
 		month_menu = new Date(newDate);
 		actual_calendar.innerHTML = month_menu.calendar();
+	}
+
+
+	this.reloadCalendar = function () {
+		reloadCalendar();
 	};
+
+	   function set(path, value) {
+    var schema = userPillData;  // a moving reference to internal objects within obj
+    var pList = path.split('.');
+    var len = pList.length;
+    for(var i = 0; i < len-1; i++) {
+        var elem = pList[i];
+        if( !schema[elem] )
+        	schema[elem] = {};
+        schema = schema[elem];
+    }
+
+    schema[pList[len-1]] = value;
+}
+
+	this.postInfo = function (takenTime) {
+		var queryIndex = '' + takenTime.getFullYear() + '.' + (takenTime.getMonth() + 1) + '.' + takenTime.getDate();
+        var queryTime = '' + takenTime.getTime();
+        var input = userPillData;
+        var queryList = queryIndex.split('.');
+        var len = queryList.length;
+
+        console.log(userPillData);
+        set(queryIndex, queryTime);
+
+        firebase.database().ref('status/' +
+            firebase.auth().currentUser.uid + '/').set(input);
+        reloadCalendar();
+	}
 });
