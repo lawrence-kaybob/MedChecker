@@ -11,7 +11,12 @@ app.config(function($routeProvider) {
             templateUrl: 'main.html'
         })
         .when("/status", {
-            templateUrl: 'status.html',
+            templateUrl: function() {
+                if(firebase.auth().currentUser)
+                    return 'status.html';
+                else
+                    return 'privilegeReq.html';
+            },
             controller: 'calController'
         })
         .when("/admin", {
@@ -69,6 +74,7 @@ app.controller('calController', function($scope, $auth, $route, $calendar) {
 
     $scope.reloadCalendar = $calendar.reloadCalendar;
     $scope.takenTime = new Date();
-    $calendar.createCalendar();
+    if($scope.currentUser.uid)
+        $calendar.createCalendar();
     //$route.reload();
 });
