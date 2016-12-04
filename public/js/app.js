@@ -5,8 +5,21 @@
 
 var app = angular.module("appModule", ['ngRoute']);
 
-app.controller('AppController', function ($scope, $auth, $calendar, $route) {
+app.config(function($routeProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl: 'main.html'
+        })
+        .when("/status", {
+            templateUrl: 'status.html',
+            controller: 'calController'
+        })
+        .when("/admin", {
+            templateUrl: 'admin.html'
+        })
+});
 
+app.controller('AppController', function ($scope, $auth, $route) {
 	$scope.toggleAuth = function() {
         if (!firebase.auth().currentUser) {
             // Firebase FB Login Provider로 시작
@@ -36,6 +49,13 @@ app.controller('AppController', function ($scope, $auth, $calendar, $route) {
         $route.reload();
     };
 
+	$auth.init($scope);
+	console.log("app.js Loaded");
+	$auth.setScopeOnAuthStateChange($scope);
+});
+
+app.controller('calController', function($scope, $auth, $route, $calendar) {
+    $scope.currentUser = $auth.getCurrentUser();
     $scope.showDetail = function(year, month, day) {
         $scope.detailYear = year;
         $scope.detailMonth = month;
@@ -43,17 +63,12 @@ app.controller('AppController', function ($scope, $auth, $calendar, $route) {
         console.log($calendar.userPillData);
     };
 
-
-
     $scope.postInfo = function() {
         $calendar.postInfo($scope.takenTime);
-    }
+    };
 
     $scope.reloadCalendar = $calendar.reloadCalendar;
-
     $scope.takenTime = new Date();
-
-	$auth.init();
-	console.log("app.js Loaded");
-	$auth.setScopeOnAuthStateChange($scope);
+    $calendar.createCalendar();
+    //$route.reload();
 });

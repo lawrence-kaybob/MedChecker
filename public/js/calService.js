@@ -67,8 +67,8 @@ app.service('$calendar', function($route) {
 		
 			calendarTable += '<td ' + id + '>' + i;
 			if(userPillData != null){
-				time = processData(userPillData, '' + year +"." + (month+1) + "." + i);
-				timeInfo = new Date();
+				var time = processData(userPillData, '' + year +"." + (month+1) + "." + i);
+				var timeInfo = new Date();
 				timeInfo.setMilliseconds(time);
 								
 				if(time != null)
@@ -101,7 +101,7 @@ app.service('$calendar', function($route) {
 		// Looks like it calculates the dates and day
 		// So first, calculate the months and days
 		// Then, when appending the days as table element, check whether patient had medicine.
-		// (Information that patient took pills on that month
+		// (Information that patien<h1>준비중입니다....</h1>t took pills on that month
 		// is prefetched before table creation, and stored in a speperate object.)
 		firebase.database().ref('status/' + firebase.auth().currentUser.uid + '/').on('value', function(snapshot){
 			userPillData = snapshot.val();

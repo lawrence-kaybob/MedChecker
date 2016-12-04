@@ -1,0 +1,37 @@
+<div class="mdl-color--white mdl-shadow--2dp inner-content">
+    <h2 id="cal-title">{{currentUser.displayName}}님의 현황</h2>
+    <div class="mdl-grid">
+        <span class="mdl-cell mdl-cell--3-col">환자번호 : <span ng-model="currentUser.patientsNo"></span></span>
+        <span class="mdl-cell mdl-cell--3-col">복용중인 약 : {{currentUser.pillsInfo}}</span>
+        <span class="mdl-cell mdl-cell--3-col">생년월일 : {{currentUser.birthday}} (만 {{currentUser.age}}세)</span>
+        <span id="date-picker" class="mdl-cell mdl-cell--3-col">
+              <form name="date_holder">
+                <input type="text" id="yearPicker">
+                <select id="monthPicker">
+                  <option value="January">1월</option>
+                  <option value="February">2월</option>
+                  <option value="March">3월</option>
+                  <option value="April">4월</option>
+                  <option value="May">5월</option>
+                  <option value="June">6월</option>
+                  <option value="July">7월</option>
+                  <option value="Auguest">8월</option>
+                  <option value="September">9월</option>
+                  <option value="October">10월</option>
+                  <option value="November">11월</option>
+                  <option value="December">12월</option>
+                </select>
+                <input type="submit" ng-click="reloadCalendar()" value="조회">
+              </form>
+              </span>
+    </div>
+    <div id='calendar-wrapper'>
+    </div>
+    <div id="database-inserter">
+        <form>
+            <span>Test Data 입력 : </span>
+            <input type="datetime-local" ng-model="takenTime">
+            <input type="submit" ng-click="postInfo()" value="입력">
+        </form>
+    </div>
+</div>

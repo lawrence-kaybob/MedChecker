@@ -230,12 +230,6 @@ input, select{
   -webkit-box-sizing: border-box;
 }
 
-#med-cal {
-  width : 100% !important;
-  padding: 10px;
-  align-content: center;
-}
-
 #cal-title {
   text-align: center;
 }
@@ -256,6 +250,22 @@ input, select{
 #database-inserter {
   text-align: right;
   margin : 10px;
+}
+
+#licence {
+    text-align: right;
+}
+
+#introduction {
+
+}
+
+.inner-content {
+    width : 100% !important;
+    height: 100% !important;
+    padding: 10px;
+    align-content: center;
+    text-align: center;
 }
 
 table, th, td {

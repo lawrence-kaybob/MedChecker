@@ -49,7 +49,7 @@
     <!-- Customized Firebase Logic File Import -->
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src='js/fbservice.js'></script>
-    <script type="text/javascript" src='js/medchecker-cal.js'></script>
+    <script type="text/javascript" src='js/calService.js'></script>
     <script type="text/javascript">
       function showDetail(time) {
         alert(time + '에 섭취했습니다!');
@@ -58,7 +58,7 @@
 
 
   </head>
-  <body ng-app="appModule" ng-controller='AppController'>
+  <body ng-app="appModule">
   <div id='detailModal' visible='showModal'>
     
   </div>
@@ -86,16 +86,17 @@
           </ul>
         </div>
       </header>
-      <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+      <div ng-controller="AppController"  class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
           <img ng-src="{{currentUser.photoURL}}" class="demo-avatar">
           <div class="demo-avatar-dropdown">
             <span>{{currentUser.greetingMessage}}</span>
+          </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" ng-click=''><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>홈</a>
-           <a class="mdl-navigation__link" ><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>현황 확인</a>
-            <a class="mdl-navigation__link" ng-click=''><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">https</i>관리자 모드</a>
+          <a class="mdl-navigation__link" href="#/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>홈</a>
+           <a class="mdl-navigation__link" href="#status"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>현황 확인</a>
+            <a class="mdl-navigation__link" href="#admin"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">https</i>관리자 모드</a>
             <a class="mdl-navigation__link" ng-click='databaseCheck()'><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">extension</i>DB Check</a>
           <a class="mdl-navigation__link" ng-click="toggleAuth()"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">assignment_turned_in</i>{{nextState}}</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span>도움말</a>
@@ -103,44 +104,7 @@
       </div>
       <!-- 페이지의 본 컨테이너 -->
       <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid">
-          <div id = "med-cal" class="mdl-color--white mdl-shadow--2dp">
-            <h2 id="cal-title">{{currentUser.displayName}}님의 현황</h2>
-            <div class="mdl-grid">
-              <span class="mdl-cell mdl-cell--3-col">환자번호 : {{currentUser.patientsNo}}</span>
-              <span class="mdl-cell mdl-cell--3-col">복용중인 약 : {{currentUser.pillsInfo}}</span>
-              <span class="mdl-cell mdl-cell--3-col">생년월일 : {{currentUser.birthday}} (만 {{currentUser.age}}세)</span>
-              <span id="date-picker" class="mdl-cell mdl-cell--3-col">
-              <form name="date_holder">
-                <input type="text" id="yearPicker">
-                <select id="monthPicker">
-                  <option value="January">1월</option>
-                  <option value="February">2월</option>
-                  <option value="March">3월</option>
-                  <option value="April">4월</option>
-                  <option value="May">5월</option>
-                  <option value="June">6월</option>
-                  <option value="July">7월</option>
-                  <option value="Auguest">8월</option>
-                  <option value="September">9월</option>
-                  <option value="October">10월</option>
-                  <option value="November">11월</option>
-                  <option value="December">12월</option>
-                </select>
-                <input type="submit" ng-click="reloadCalendar()" value="조회">
-              </form>
-              </span>
-            </div>
-            <div id='calendar-wrapper'>
-            </div>
-            <div id="database-inserter">
-            <form>
-              <span>Test Data 입력 : </span>
-              <input type="datetime-local" ng-model="takenTime">
-              <input type="submit" ng-click="postInfo()" value="입력">
-            </form>
-          </div>
-          </div>
+        <div class="mdl-grid" ng-view>
         </div>
       </main>
     </div>

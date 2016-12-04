@@ -12,7 +12,7 @@ var app = angular.module("appModule");
 
 // Individual service for firebase authentication
 // Should be included
-app.service('$auth', function($route, $calendar) {
+app.service('$auth', function($route) {
 	// 최소한의 정보만 담을 객체
 	// firebase 객체를 사용하지 않도록 하기 위함임!
 	var currentUser= {
@@ -34,7 +34,7 @@ app.service('$auth', function($route, $calendar) {
 
 	// Initailzation Function
 	// Called in $scope controller
-	this.init = function () {
+	this.init = function ($scope) {
 		firebase.auth().getRedirectResult().then(function (result) {
 			var user = result.user;
 		}).catch(function (error) { //로그인 실패 시나리오
@@ -47,6 +47,7 @@ app.service('$auth', function($route, $calendar) {
 			console.error(error);
 
 		});
+		$scope.nextState = "로딩 중..."
 	};
 
 	this.setScopeOnAuthStateChange = function ($scope) {
@@ -83,8 +84,6 @@ app.service('$auth', function($route, $calendar) {
 		  		  	$scope.currentUser = currentUser;
 		  		  	$route.reload();
 	  		  	});
-
-    			$calendar.createCalendar();
 				$scope.nextState = "로그아웃";
 			}
 			else {
