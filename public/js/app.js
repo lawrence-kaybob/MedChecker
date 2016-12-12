@@ -15,12 +15,19 @@ app.config(function($routeProvider) {
                 if(firebase.auth().currentUser)
                     return 'status.html';
                 else
-                    return 'privilegeReq.html';
+                    return '401.html';
             },
             controller: 'calController'
         })
         .when("/admin", {
-            templateUrl: 'admin.html'
+            templateUrl: 'admin.html',
+            controller: 'adminController'
+        })
+        .when("/help", {
+            templateUrl: 'help.html'
+        })
+        .when("/401", {
+            templateUrl: '401.html'
         })
 });
 
@@ -40,19 +47,6 @@ app.controller('AppController', function ($scope, $auth, $route) {
         }
 	};
 
-    $scope.databaseCheck = function () {
-        var d = new Date();
-        var n = d.getTime();
-        var input = {
-                '2' : 1475406000, '3': 1475506800, '7' : 1475856780, '14': 1476467340
-        };
-
-        input['' + d.getDate()] = n;
-
-        firebase.database().ref(
-                'status/' + firebase.auth().currentUser.uid +  '/' + 2016 + '/' + 11).set(input);
-        $route.reload();
-    };
 
 	$auth.init($scope);
 	console.log("app.js Loaded");
@@ -74,7 +68,47 @@ app.controller('calController', function($scope, $auth, $route, $calendar) {
 
     $scope.reloadCalendar = $calendar.reloadCalendar;
     $scope.takenTime = new Date();
-    if($scope.currentUser.uid)
-        $calendar.createCalendar();
-    //$route.reload();
+
+    document.getElementById("yearPicker").value = $scope.takenTime.getFullYear();
+    document.getElementById("monthPicker").selectedIndex = $scope.takenTime.getMonth();
+
+    if(firebase.auth().currentUser)
+        $calendar.createCalendar(firebase.auth().currentUser.uid);
+});
+
+app.controller('adminController', function($scope, $calendar, $route) {
+    $scope.patients = [
+        {displayName : "로딩중..."}
+    ];
+    function getPatients() {
+
+    }
+
+    $scope.registerPatient = function() {
+
+    };
+
+    $scope.viewPatient = function() {
+        var index = document.getElementById("patient-picker").selectedIndex;
+        $calendar.createCalendar($scope.patients[index].uid);
+    };
+
+    firebase.database().ref('user_info').on('value', function(snapshot) {
+        // console.log(snapshot.val());
+        console.log("Callback Reached");
+        $scope.patients = snapshot.val();
+        $scope.patients = $.map($scope.patients, function(value, index){
+            return [value];
+        });
+        console.log($scope.patients);
+        angular.element('#admin-content').css({visibility : 'visible'});
+    });
+
+    firebase.database().ref('admin').on('value', function(){
+        angular.element('#admin-loader').fadeOut(100);
+        var today = new Date();
+        document.getElementById("yearPicker").value = today.getFullYear();
+        document.getElementById("monthPicker").selectedIndex = today.getMonth();
+        $scope.viewPatient();
+    });
 });

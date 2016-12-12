@@ -1,7 +1,7 @@
 <div class="mdl-color--white mdl-shadow--2dp inner-content">
     <h2 id="cal-title">{{currentUser.displayName}}님의 현황</h2>
     <div class="mdl-grid">
-        <span class="mdl-cell mdl-cell--3-col">환자번호 : <span ng-model="currentUser.patientsNo"></span></span>
+        <span class="mdl-cell mdl-cell--3-col">환자번호 : {{currentUser.patientsNo}}</span>
         <span class="mdl-cell mdl-cell--3-col">복용중인 약 : {{currentUser.pillsInfo}}</span>
         <span class="mdl-cell mdl-cell--3-col">생년월일 : {{currentUser.birthday}} (만 {{currentUser.age}}세)</span>
         <span id="date-picker" class="mdl-cell mdl-cell--3-col">

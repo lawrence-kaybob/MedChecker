@@ -1,6 +1,20 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "admin" : {
+      ".read" : "auth != null && data.val() == auth.uid"
+    },
+    "status" : {
+      "$uid" : {
+        ".read" : "auth != null && (root.child('/admin').val() == auth.uid || data.child('uid').val() == auth.uid)",
+        ".write" : "auth != null && data.child('uid').val() == auth.uid"
+      }
+    },
+    "user_info": {
+      "$uid": {
+        ".read": "auth!=null && (root.child('/admin').val() == auth.uid || data.child('uid').val() == auth.uid)",
+        ".write": "auth != null && root.child('/admin').val() == auth.uid"
+      },
+      ".read": "auth != null && root.child('/admin').val() == auth.uid"
+    }
   }
 }

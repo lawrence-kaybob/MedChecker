@@ -1,3 +1,52 @@
 <div class="mdl-color--white mdl-shadow--2dp inner-content">
-    <h1>준비중입니다....</h1>
+	<div id="admin-loader">
+	    <h1>인증 중입니다....</h1>
+        <p>다음 화면으로 안 넘어갈 경우 권한이 없는 것입니다.</p>
+        <p>만약 관리자여도 넘어가지 않는 경우, 잠시 기다려주시고<br/>새로고침을 시도해주세요</p>
+	</div>
+	<div id="admin-content" class="mdl-grid">
+        <div id="patient-register" class="inner-content">
+            <h3>환자 등록</h3>
+            <form>
+                <div margin="10px">
+                <span class="mdl-cell mdl-cell--3-col">이름 : <input type="text" class="new-text" ng-model="newName"></span>
+                <span class="mdl-cell mdl-cell--3-col">계정고유번호 : <input type="text" class="new-text" ng-model="newUid"></span>
+                <span class="mdl-cell mdl-cell--3-col">환자번호 : <input type="text" class="new-text" ng-model="newPatiensNo"></span>
+                </div>
+                <br/>
+                <div margin="10px">
+                <span class="mdl-cell mdl-cell--3-col">복용할 약 : <input type="text" class="new-text" ng-model="newPillsInfo"></span>
+                <span id="date-picker" class="mdl-cell mdl-cell--3-col">생년월일 : <input type="date" ng-model="newBirthday"></span>
+                <span class="mdl-cell mdl-cell--3-col">나이 : <input type="text" class="new-text" ng-model="newAge"></span>
+                <input type="submit" ng-click="registerPatient()">
+                </div>
+            </form>
+        </div>
+        <div id="patient-view" class="inner-content">
+            <h3>환자 현황 확인</h3>
+            <!-- 환자 명단 확인 -->
+            <form>
+                <input type="text" id="yearPicker">
+                <select id="monthPicker">
+                    <option value="January">1월</option>
+                    <option value="February">2월</option>
+                    <option value="March">3월</option>
+                    <option value="April">4월</option>
+                    <option value="May">5월</option>
+                    <option value="June">6월</option>
+                    <option value="July">7월</option>
+                    <option value="Auguest">8월</option>
+                    <option value="September">9월</option>
+                    <option value="October">10월</option>
+                    <option value="November">11월</option>
+                    <option value="December">12월</option>
+                </select>
+                <select id="patient-picker" ng-model="selectedPerson">
+                    <option ng-repeat="x in patients" value="{{x.displayName}}">{{x.displayName}}</option>
+                </select>
+                <input type="submit" ng-click="viewPatient()" value="조회">
+            </form>
+            <div id="calendar-wrapper"></div>
+        </div>
+	</div>
 </div>

@@ -39,6 +39,11 @@
     }
     </style>
 
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+
       <!-- AngularJS 1.5 Import Script -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
@@ -97,9 +102,8 @@
           <a class="mdl-navigation__link" href="#/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>홈</a>
            <a class="mdl-navigation__link" href="#status"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>현황 확인</a>
             <a class="mdl-navigation__link" href="#admin"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">https</i>관리자 모드</a>
-            <a class="mdl-navigation__link" ng-click='databaseCheck()'><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">extension</i>DB Check</a>
           <a class="mdl-navigation__link" ng-click="toggleAuth()"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">assignment_turned_in</i>{{nextState}}</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span>도움말</a>
+          <a class="mdl-navigation__link" href="#help"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span>도움말</a>
         </nav>
       </div>
       <!-- 페이지의 본 컨테이너 -->

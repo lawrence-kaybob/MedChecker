@@ -76,7 +76,7 @@ app.service('$auth', function($route) {
 		  		  .then(function(snapshot) {
 			        userInfo = snapshot.val();
 
-	  		  		currentUser.patientsNo = userInfo.patientsNo;
+					currentUser.patientsNo = userInfo.patientsNo;
 			  		currentUser.pillsInfo = userInfo.pillsInfo;
 	  		  		currentUser.age = userInfo.age;
 		  		  	currentUser.birthday = userInfo.birthday;

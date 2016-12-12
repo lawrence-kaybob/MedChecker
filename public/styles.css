@@ -256,8 +256,32 @@ input, select{
     text-align: right;
 }
 
-#introduction {
+#admin-loader {
+  visibility: visible;
+}
 
+#admin-content {
+  visibility: hidden;
+  text-align: center;
+}
+
+#patient-register span {
+    margin: 10px;
+}
+
+#patient-picker {
+    align-content: right;
+    height:25px;
+}
+
+#patient-view form{
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.new-text {
+    height : 25px;
+    width : 120px;
 }
 
 .inner-content {

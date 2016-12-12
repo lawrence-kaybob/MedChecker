@@ -96,24 +96,19 @@ app.service('$calendar', function($route) {
 		return calendarTable;
 	}
 
-	this.createCalendar = function(){
+	this.createCalendar = function(uid){
 		// https://www.daniweb.com/programming/web-development/code/217119/dynamic-calendar
 		// Looks like it calculates the dates and day
 		// So first, calculate the months and days
 		// Then, when appending the days as table element, check whether patient had medicine.
 		// (Information that patien<h1>준비중입니다....</h1>t took pills on that month
 		// is prefetched before table creation, and stored in a speperate object.)
-		firebase.database().ref('status/' + firebase.auth().currentUser.uid + '/').on('value', function(snapshot){
+		firebase.database().ref('status/' + uid + '/').on('value', function(snapshot){
 			userPillData = snapshot.val();
 			actual_calendar.innerHTML = today.calendar();
-			document.getElementById("yearPicker").value = year;
-			document.getElementById("monthPicker").selectedIndex = month;
+			reloadCalendar();
 		});
-
 		actual_calendar = document.getElementById('calendar-wrapper');
-		actual_calendar.innerHTML = today.calendar();
-
-		// Return calendar DOM objects
 	};
 
 	this.getUserPillData = function() {
@@ -163,5 +158,6 @@ app.service('$calendar', function($route) {
         firebase.database().ref('status/' +
             firebase.auth().currentUser.uid + '/').set(input);
         reloadCalendar();
-	}
+	};
+
 });
